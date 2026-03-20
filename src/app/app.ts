@@ -31,7 +31,7 @@ export class App {
   readonly bottleSize = '200 ml';
 
   // Replace this with your WhatsApp bot or business link.
-  readonly whatsAppBaseUrl = 'https://wa.me/15551234567';
+  readonly whatsAppBaseUrl = 'https://wa.me/8605873127';
 
   quantity = 2;
 
