@@ -1,0 +1,148 @@
+<main class="page-shell">
+  <section class="category-strip" aria-label="Product categories">
+    @for (category of categories; track category.name) {
+      <button
+        type="button"
+        class="category-pill"
+        [class.active]="category.active"
+        [attr.aria-pressed]="category.active"
+      >
+        {{ category.name }}
+      </button>
+    }
+  </section>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ brandName }}</p>
+      <h1>Premium care with Viteja Ultra Smoothening Shampoo.</h1>
+      <p class="hero-text">
+        {{ tagLine }} The website now showcases your cosmetics line professionally, while keeping
+        ordering simple through WhatsApp with quantity and pricing ready to send.
+      </p>
+
+      <div class="hero-actions">
+        <a class="primary-action" [href]="whatsappHref" target="_blank" rel="noopener">
+          Order on WhatsApp
+        </a>
+        <a class="secondary-action" href="#formula">See product details</a>
+      </div>
+
+      <div class="metrics">
+        @for (item of metrics; track item.label) {
+          <article class="metric-card">
+            <strong>{{ item.value }}</strong>
+            <span>{{ item.label }}</span>
+          </article>
+        }
+      </div>
+    </div>
+
+    <aside class="product-showcase">
+      <div class="showcase-glow"></div>
+      <div class="product-card">
+        <div class="product-badge">Cosmetics</div>
+        <p class="product-label">Viteja Hair Care</p>
+        <h2>{{ productName }}</h2>
+        <p class="product-description">
+          Frizz-Free Smoothness | Strength &amp; Shine with an advanced keratin formula for
+          luxurious hair.
+        </p>
+
+        <div class="product-highlights">
+          @for (item of highlights; track item) {
+            <div class="highlight-pill">{{ item }}</div>
+          }
+        </div>
+
+        <div class="bottle-visual">
+          <div class="bottle-cap"></div>
+          <div class="bottle-body">
+            <div class="bottle-logo">
+              <span>{{ brandName }}</span>
+            </div>
+            <strong>Ultra Smoothening Shampoo</strong>
+            <p>Frizz-Free Smoothness | Strength &amp; Shine</p>
+            <div class="leaf-mark"></div>
+            <small>Advanced Keratin Formula for Luxurious Hair</small>
+            <div class="free-strip">Sulphate-Free | Paraben-Free</div>
+            <em>{{ bottleSize }}</em>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="benefits-grid" id="formula">
+    @for (benefit of benefits; track benefit.title) {
+      <article class="benefit-card">
+        <p class="benefit-index">0{{ $index + 1 }}</p>
+        <h3>{{ benefit.title }}</h3>
+        <p>{{ benefit.description }}</p>
+      </article>
+    }
+  </section>
+
+  <section class="details-layout">
+    <article class="story-card">
+      <p class="section-tag">About this cosmetic product</p>
+      <h2>Keratin-enriched shampoo designed to nourish hair, reduce frizz, and restore smooth shine.</h2>
+      <p>
+        VITEJA UltraSmooth Shampoo is positioned as a premium cosmetic product for everyday hair
+        care. It is designed to repair damage, smoothen hair, and strengthen from root to tip
+        while keeping the shopping experience fast and professional.
+      </p>
+
+      <div class="routine-list">
+        @for (step of routine; track step.title) {
+          <div class="routine-item">
+            <strong>{{ step.title }}</strong>
+            <p>{{ step.detail }}</p>
+          </div>
+        }
+      </div>
+    </article>
+
+    <article class="order-card">
+      <p class="section-tag">Quick order</p>
+      <h2>{{ productName }}</h2>
+      <p class="price-line">
+        {{ pricePerBottle | currency: 'INR' : 'symbol' : '1.0-0' }}
+        <span>per bottle</span>
+      </p>
+
+      <label class="quantity-label" for="quantity">Choose quantity</label>
+      <div class="quantity-control">
+        <button type="button" (click)="decreaseQuantity()" aria-label="Decrease quantity">-</button>
+        <input
+          id="quantity"
+          type="number"
+          min="1"
+          [(ngModel)]="quantity"
+          (blur)="normalizeQuantity()"
+        />
+        <button type="button" (click)="increaseQuantity()" aria-label="Increase quantity">+</button>
+      </div>
+
+      <div class="order-summary">
+        <div>
+          <span>Total bottles</span>
+          <strong>{{ quantity }}</strong>
+        </div>
+        <div>
+          <span>Estimated total</span>
+          <strong>{{ totalPrice | currency: 'INR' : 'symbol' : '1.0-0' }}</strong>
+        </div>
+      </div>
+
+      <a class="checkout-action" [href]="whatsappHref" target="_blank" rel="noopener">
+        Send order to WhatsApp
+      </a>
+
+      <p class="order-note">
+        Update the WhatsApp bot link in the Angular component and this button will send the Viteja
+        shampoo name, quantity, and total automatically.
+      </p>
+    </article>
+  </section>
+</main>
