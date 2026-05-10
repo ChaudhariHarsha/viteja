@@ -33,7 +33,7 @@ export class App {
   // Replace this with your WhatsApp bot or business link.
   readonly whatsAppBaseUrl = 'https://wa.me/8605873127';
 
-  quantity = 2;
+  quantity = 1;
 
   readonly categories: Category[] = [
     { name: 'Cosmetics', active: true },
