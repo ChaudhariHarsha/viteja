@@ -17,6 +17,13 @@ type Category = {
   active: boolean;
 };
 
+type ProductImage = {
+  src: string;
+  alt: string;
+  label: string;
+  ariaLabel: string;
+};
+
 @Component({
   selector: 'app-root',
   imports: [CommonModule, FormsModule, CurrencyPipe],
@@ -29,11 +36,26 @@ export class App {
   readonly productName = 'Ultra Smoothening Shampoo';
   readonly pricePerBottle = 599;
   readonly bottleSize = '200 ml';
+  readonly productImages: ProductImage[] = [
+    {
+      src: 'assets/front.jpeg',
+      alt: 'Front view of Viteja Ultra Smoothening Shampoo bottle',
+      label: 'Front view',
+      ariaLabel: 'Show front view'
+    },
+    {
+      src: 'assets/back.jpeg',
+      alt: 'Back view of Viteja Ultra Smoothening Shampoo bottle',
+      label: 'Back view',
+      ariaLabel: 'Show back view'
+    }
+  ];
 
   // Replace this with your WhatsApp bot or business link.
   readonly whatsAppBaseUrl = 'https://wa.me/8605873127';
 
   quantity = 1;
+  activeProductImageIndex = 0;
 
   readonly categories: Category[] = [
     { name: 'Cosmetics', active: true },
@@ -83,6 +105,10 @@ export class App {
     { value: '₹599', label: 'incl. of taxes' }
   ];
 
+  get activeProductImage(): ProductImage {
+    return this.productImages[this.activeProductImageIndex];
+  }
+
   get totalPrice(): number {
     return this.quantity * this.pricePerBottle;
   }
@@ -98,6 +124,19 @@ export class App {
 
     const separator = this.whatsAppBaseUrl.includes('?') ? '&' : '?';
     return `${this.whatsAppBaseUrl}${separator}text=${encodeURIComponent(message)}`;
+  }
+
+  showProductImage(index: number): void {
+    this.activeProductImageIndex = index;
+  }
+
+  showPreviousProductImage(): void {
+    this.activeProductImageIndex =
+      (this.activeProductImageIndex + this.productImages.length - 1) % this.productImages.length;
+  }
+
+  showNextProductImage(): void {
+    this.activeProductImageIndex = (this.activeProductImageIndex + 1) % this.productImages.length;
   }
 
   decreaseQuantity(): void {
