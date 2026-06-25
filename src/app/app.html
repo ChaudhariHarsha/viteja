@@ -1,35 +1,35 @@
 <main class="page-shell">
-  <!-- <section class="category-strip" aria-label="Product categories">
-    @for (category of categories; track category.name) {
+  <section class="category-strip" aria-label="Product categories">
+    @for (category of categories; track category.id) {
       <button
         type="button"
         class="category-pill"
-        [class.active]="category.active"
-        [attr.aria-pressed]="category.active"
+        [class.active]="category.id === selectedCategoryId"
+        [attr.aria-pressed]="category.id === selectedCategoryId"
+        [attr.aria-disabled]="category.disabled ? 'true' : null"
+        [disabled]="category.disabled"
+        (click)="selectCategory(category.id)"
       >
         {{ category.name }}
       </button>
     }
-  </section> -->
+  </section>
 
-  <section class="hero">
+  <section class="hero" [class.sanitary-hero]="activeProduct.id === 'sanitary'">
     <div class="hero-copy">
       <p class="eyebrow">{{ brandName }}</p>
-      <h1>Premium care with Viteja Ultra Smoothening Shampoo.</h1>
-      <p class="hero-text">
-        {{ tagLine }} The website now showcases your cosmetics line professionally, while keeping
-        ordering simple through WhatsApp with quantity and pricing ready to send.
-      </p>
+      <h1>{{ activeProduct.heroHeading }}</h1>
+      <p class="hero-text">{{ activeProduct.heroText }}</p>
 
       <div class="hero-actions">
         <a class="primary-action" [href]="whatsappHref" target="_blank" rel="noopener">
           Order on WhatsApp
         </a>
-        <a class="secondary-action" href="#formula">See product details</a>
+        <a class="secondary-action" href="#formula">See Product Details</a>
       </div>
 
       <div class="metrics">
-        @for (item of metrics; track item.label) {
+        @for (item of activeProduct.metrics; track item.label) {
           <article class="metric-card">
             <strong>{{ item.value }}</strong>
             <span>{{ item.label }}</span>
@@ -41,61 +41,70 @@
     <aside class="product-showcase">
       <div class="showcase-glow"></div>
       <div class="product-card">
-        <div class="product-badge">Cosmetics</div>
-        <p class="product-label">Viteja Hair Care</p>
-        <h2>{{ productName }}</h2>
-        <p class="product-description">
-          Frizz-Free Smoothness | Strength &amp; Shine with an advanced keratin formula for
-          luxurious hair.
-        </p>
+        <div class="product-badge">{{ activeProduct.cardCategory }}</div>
+        <p class="product-label">{{ activeProduct.productLabel }}</p>
+        <h2>{{ activeProduct.productName }}</h2>
+        <p class="product-description">{{ activeProduct.productDescription }}</p>
 
         <div class="product-highlights">
-          @for (item of highlights; track item) {
+          @for (item of activeProduct.highlights; track item) {
             <div class="highlight-pill">{{ item }}</div>
           }
         </div>
 
-        <div class="product-slideshow" aria-label="Viteja shampoo bottle images">
-          <button
-            type="button"
-            class="slide-button slide-button-previous"
-            (click)="showPreviousProductImage()"
-            aria-label="Show previous product image"
-          >
-            &lsaquo;
-          </button>
+        @if (activeProduct.visual === 'images') {
+          <div class="product-slideshow" aria-label="Viteja shampoo bottle images">
+            <button
+              type="button"
+              class="slide-button slide-button-previous"
+              (click)="showPreviousProductImage()"
+              aria-label="Show previous product image"
+            >
+              &lsaquo;
+            </button>
 
-          <figure class="product-slide">
-            <img [src]="activeProductImage.src" [alt]="activeProductImage.alt" />
-          </figure>
+            <figure class="product-slide">
+              <img [src]="activeProductImage.src" [alt]="activeProductImage.alt" />
+            </figure>
 
-          <button
-            type="button"
-            class="slide-button slide-button-next"
-            (click)="showNextProductImage()"
-            aria-label="Show next product image"
-          >
-            &rsaquo;
-          </button>
+            <button
+              type="button"
+              class="slide-button slide-button-next"
+              (click)="showNextProductImage()"
+              aria-label="Show next product image"
+            >
+              &rsaquo;
+            </button>
 
-          <div class="slide-dots" aria-label="Choose product image">
-            @for (image of productImages; track image.label; let imageIndex = $index) {
-              <button
-                type="button"
-                [class.active]="imageIndex === activeProductImageIndex"
-                [attr.aria-label]="image.ariaLabel"
-                [attr.aria-current]="imageIndex === activeProductImageIndex ? 'true' : null"
-                (click)="showProductImage(imageIndex)"
-              ></button>
-            }
+            <div class="slide-dots" aria-label="Choose product image">
+              @for (image of activeProductImages; track image.label; let imageIndex = $index) {
+                <button
+                  type="button"
+                  [class.active]="imageIndex === activeProductImageIndex"
+                  [attr.aria-label]="image.ariaLabel"
+                  [attr.aria-current]="imageIndex === activeProductImageIndex ? 'true' : null"
+                  (click)="showProductImage(imageIndex)"
+                ></button>
+              }
+            </div>
           </div>
-        </div>
+        } @else {
+          <div class="sanitary-visual" aria-label="Viteja sanitary pads product visual">
+            <div class="sanitary-pack">
+              <span>{{ brandName }}</span>
+              <strong>Ultra Comfort</strong>
+              <small>Sanitary Pads</small>
+              <div class="pad-shape"></div>
+              <em>290 mm</em>
+            </div>
+          </div>
+        }
       </div>
     </aside>
   </section>
 
   <section class="benefits-grid" id="formula">
-    @for (benefit of benefits; track benefit.title) {
+    @for (benefit of activeProduct.benefits; track benefit.title) {
       <article class="benefit-card">
         <p class="benefit-index">0{{ $index + 1 }}</p>
         <h3>{{ benefit.title }}</h3>
@@ -106,16 +115,13 @@
 
   <section class="details-layout">
     <article class="story-card">
-      <p class="section-tag">About this cosmetic product</p>
-      <h2>Keratin-enriched shampoo designed to nourish hair, reduce frizz, and restore smooth shine.</h2>
-      <p>
-        VITEJA UltraSmooth Shampoo is positioned as a premium cosmetic product for everyday hair
-        care. It is designed to repair damage, smoothen hair, and strengthen from root to tip
-        while keeping the shopping experience fast and professional.
-      </p>
+      <p class="section-tag">{{ activeProduct.aboutTag }}</p>
+      <h2>{{ activeProduct.aboutHeading }}</h2>
+      <p>{{ activeProduct.aboutDescription }}</p>
 
+      <p class="routine-heading">{{ activeProduct.routineTitle }}</p>
       <div class="routine-list">
-        @for (step of routine; track step.title) {
+        @for (step of activeProduct.routine; track step.title) {
           <div class="routine-item">
             <strong>{{ step.title }}</strong>
             <p>{{ step.detail }}</p>
@@ -126,10 +132,10 @@
 
     <article class="order-card">
       <p class="section-tag">Quick order</p>
-      <h2>{{ productName }}</h2>
+      <h2>{{ activeProduct.productName }}</h2>
       <p class="price-line">
-        {{ pricePerBottle | currency: 'INR' : 'symbol' : '1.0-0' }}
-        <span>per bottle</span>
+        {{ activeProduct.priceDisplay }}
+        <span>{{ activeProduct.unitPriceLabel }}</span>
       </p>
 
       <label class="quantity-label" for="quantity">Choose quantity</label>
@@ -147,23 +153,20 @@
 
       <div class="order-summary">
         <div>
-          <span>Total bottles</span>
+          <span>{{ activeProduct.totalQuantityLabel }}</span>
           <strong>{{ quantity }}</strong>
         </div>
         <div>
           <span>Estimated total</span>
-          <strong>{{ totalPrice | currency: 'INR' : 'symbol' : '1.0-0' }}</strong>
+          <strong>{{ estimatedTotalDisplay }}</strong>
         </div>
       </div>
 
       <a class="checkout-action" [href]="whatsappHref" target="_blank" rel="noopener">
-        Send order to WhatsApp
+        Send Order to WhatsApp
       </a>
 
-      <p class="order-note">
-        Update the WhatsApp bot link in the Angular component and this button will send the Viteja
-        shampoo name, quantity, and total automatically.
-      </p>
+      <p class="order-note">{{ activeProduct.orderNote }}</p>
     </article>
   </section>
 </main>
