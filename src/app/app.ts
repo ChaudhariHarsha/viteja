@@ -69,7 +69,7 @@ export class App {
   readonly brandName = 'Viteja';
 
   // Replace this with your WhatsApp bot or business link.
-  readonly whatsAppBaseUrl = 'https://wa.me/8605873127';
+  readonly whatsAppBaseUrl = 'https://wa.me/7276073127';
 
   readonly categories: Category[] = [
     { id: 'cosmetics', name: 'Cosmetics' },
