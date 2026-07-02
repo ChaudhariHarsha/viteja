@@ -52,53 +52,9 @@
           }
         </div>
 
-        @if (activeProduct.visual === 'images') {
-          <div class="product-slideshow" aria-label="Viteja shampoo bottle images">
-            <button
-              type="button"
-              class="slide-button slide-button-previous"
-              (click)="showPreviousProductImage()"
-              aria-label="Show previous product image"
-            >
-              &lsaquo;
-            </button>
-
-            <figure class="product-slide">
-              <img [src]="activeProductImage.src" [alt]="activeProductImage.alt" />
-            </figure>
-
-            <button
-              type="button"
-              class="slide-button slide-button-next"
-              (click)="showNextProductImage()"
-              aria-label="Show next product image"
-            >
-              &rsaquo;
-            </button>
-
-            <div class="slide-dots" aria-label="Choose product image">
-              @for (image of activeProductImages; track image.label; let imageIndex = $index) {
-                <button
-                  type="button"
-                  [class.active]="imageIndex === activeProductImageIndex"
-                  [attr.aria-label]="image.ariaLabel"
-                  [attr.aria-current]="imageIndex === activeProductImageIndex ? 'true' : null"
-                  (click)="showProductImage(imageIndex)"
-                ></button>
-              }
-            </div>
-          </div>
-        } @else {
-          <div class="sanitary-visual" aria-label="Viteja sanitary pads product visual">
-            <div class="sanitary-pack">
-              <span>{{ brandName }}</span>
-              <strong>Ultra Comfort</strong>
-              <small>Sanitary Pads</small>
-              <div class="pad-shape"></div>
-              <em>290 mm</em>
-            </div>
-          </div>
-        }
+        <figure class="product-slide">
+          <img [src]="activeProduct.image.src" [alt]="activeProduct.image.alt" />
+        </figure>
       </div>
     </aside>
   </section>

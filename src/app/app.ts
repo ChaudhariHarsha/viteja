@@ -28,8 +28,6 @@ type Metric = {
 type ProductImage = {
   src: string;
   alt: string;
-  label: string;
-  ariaLabel: string;
 };
 
 type ProductCatalog = {
@@ -55,8 +53,7 @@ type ProductCatalog = {
   orderUnitName: string;
   orderUnitPlural: string;
   orderNote: string;
-  images: ProductImage[];
-  visual: 'images' | 'sanitary-pack';
+  image: ProductImage;
 };
 
 @Component({
@@ -74,7 +71,7 @@ export class App {
   readonly categories: Category[] = [
     { id: 'cosmetics', name: 'Cosmetics' },
     { id: 'sanitary', name: 'Sanitary' },
-    { id: 'cleaning', name: 'Cleaning Product', disabled: true }
+    { id: 'cleaning', name: 'Cleaning Product' }
   ];
 
   readonly products: ProductCatalog[] = [
@@ -143,21 +140,10 @@ export class App {
       orderUnitName: 'bottle',
       orderUnitPlural: 'bottles',
       orderNote: 'Viteja team will confirm availability and delivery details on WhatsApp.',
-      images: [
-        {
-          src: 'assets/front.jpeg',
-          alt: 'Front view of Viteja Ultra Smoothening Shampoo bottle',
-          label: 'Front view',
-          ariaLabel: 'Show front view'
-        },
-        {
-          src: 'assets/back.jpeg',
-          alt: 'Back view of Viteja Ultra Smoothening Shampoo bottle',
-          label: 'Back view',
-          ariaLabel: 'Show back view'
-        }
-      ],
-      visual: 'images'
+      image: {
+        src: 'assets/front.jpeg',
+        alt: 'Front view of Viteja Ultra Smoothening Shampoo bottle'
+      }
     },
     {
       id: 'sanitary',
@@ -176,7 +162,7 @@ export class App {
       metrics: [
         { value: '290 mm', label: 'Extra-long protection' },
         { value: 'Cotton Soft', label: 'Comfortable top layer' },
-        { value: '₹XX', label: 'Per Pack' }
+        { value: '₹200', label: 'Per pack of 5' }
       ],
       benefits: [
         {
@@ -216,28 +202,92 @@ export class App {
           detail: 'Wrap the used pad in paper and dispose of it in a dustbin. Do not flush in toilets.'
         }
       ],
-      priceDisplay: '₹XX',
-      pricePerUnit: null,
-      unitPriceLabel: 'per pack',
+      priceDisplay: '₹200',
+      pricePerUnit: 200,
+      unitPriceLabel: 'per pack of 5',
       totalQuantityLabel: 'Total packs',
       orderUnitName: 'pack',
       orderUnitPlural: 'packs',
-      orderNote: 'Viteja team will confirm the final pack price, availability, and delivery details on WhatsApp.',
-      images: [],
-      visual: 'sanitary-pack'
+      orderNote: 'Only packs of 5 pads are delivered. Viteja team will confirm availability and delivery details on WhatsApp.',
+      image: {
+        src: 'assets/pads.jpeg',
+        alt: 'Viteja Ultra Comfort Sanitary Pads pack'
+      }
+    },
+    {
+      id: 'cleaning',
+      heroHeading: 'Premium care with Viteja DishSpark Dish Wash Liquid.',
+      heroText:
+        'Sparkling clean care with a lemon-powered formula for grease-free, shiny utensils. The website now showcases your cleaning line professionally, while keeping ordering simple through WhatsApp with quantity and pricing ready to send.',
+      cardCategory: 'Cleaning Product',
+      productLabel: 'VITEJA CLEANING CARE',
+      productName: 'Viteja DishSpark Dish Wash Liquid',
+      productDescription:
+        'Removes Tough Grease | Rich Foam Formula | Fresh Lemon Fragrance for spotless utensils.',
+      highlights: [
+        'Advanced grease-cutting formula for sparkling clean utensils',
+        'Rich foam action that removes tough oils and food stains',
+        'Gentle on hands and infused with a refreshing lemon fragrance'
+      ],
+      metrics: [
+        { value: '500 ml', label: 'net volume' },
+        { value: 'Lemon Formula', label: 'rich foam action' },
+        { value: '₹99', label: 'Incl. of taxes' }
+      ],
+      benefits: [
+        {
+          title: 'Removes Tough Grease',
+          description:
+            'Formulated to slice through heavy grease, oils, and stubborn burnt food stains easily without extra scrubbing.'
+        },
+        {
+          title: 'Rich Foam Action',
+          description:
+            'Creates a thick, powerful lather that efficiently lifts away dirt and cleans more utensils with just a few drops.'
+        },
+        {
+          title: 'Fresh Lemon Fragrance',
+          description:
+            'Infused with a refreshing citrus scent that completely eliminates tough food odors, leaving dishes smelling fresh.'
+        }
+      ],
+      aboutTag: 'About this cleaning product',
+      aboutHeading:
+        'Powerful dish wash liquid specially formulated to remove tough grease, oil, and food stains from utensils.',
+      aboutDescription:
+        'VITEJA DishSpark Dish Wash Liquid is positioned as a premium cleaning product for everyday kitchen care. It is designed to target greasy surfaces, lift away stains, and leave utensils sparkling clean while keeping your hands soft and your shopping experience fast and professional.',
+      routineTitle: 'How to use',
+      routine: [
+        {
+          title: 'Apply or Mix',
+          detail:
+            'Add 2–3 drops directly onto a wet scrubber or sponge, OR mix 1 teaspoon of liquid in a small bowl of water.'
+        },
+        {
+          title: 'Scrub',
+          detail: 'Work up a rich lather and scrub your utensils thoroughly to lift away grease and food particles.'
+        },
+        {
+          title: 'Rinse completely',
+          detail: 'Wash out completely with clean water to leave your utensils residue-free, shiny, and smelling fresh.'
+        }
+      ],
+      priceDisplay: '₹99',
+      pricePerUnit: 99,
+      unitPriceLabel: 'per bottle',
+      totalQuantityLabel: 'Total bottles',
+      orderUnitName: 'bottle',
+      orderUnitPlural: 'bottles',
+      orderNote: 'Viteja team will confirm availability and delivery details on WhatsApp.',
+      image: {
+        src: 'assets/dishwasher.jpeg',
+        alt: 'Viteja DishSpark Dish Wash Liquid bottle'
+      }
     }
   ];
 
   quantity = 1;
   selectedCategoryId: ProductCategoryId = 'cosmetics';
-  activeProductImageIndex = 0;
-
-  private readonly fallbackProductImage: ProductImage = {
-    src: '',
-    alt: '',
-    label: '',
-    ariaLabel: ''
-  };
 
   private readonly currencyFormatter = new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -247,14 +297,6 @@ export class App {
 
   get activeProduct(): ProductCatalog {
     return this.products.find((product) => product.id === this.selectedCategoryId) ?? this.products[0];
-  }
-
-  get activeProductImages(): ProductImage[] {
-    return this.activeProduct.images;
-  }
-
-  get activeProductImage(): ProductImage {
-    return this.activeProductImages[this.activeProductImageIndex] ?? this.fallbackProductImage;
   }
 
   get quantityUnitLabel(): string {
@@ -291,32 +333,6 @@ export class App {
 
     this.selectedCategoryId = categoryId;
     this.quantity = 1;
-    this.activeProductImageIndex = 0;
-  }
-
-  showProductImage(index: number): void {
-    if (index >= 0 && index < this.activeProductImages.length) {
-      this.activeProductImageIndex = index;
-    }
-  }
-
-  showPreviousProductImage(): void {
-    if (this.activeProductImages.length === 0) {
-      return;
-    }
-
-    this.activeProductImageIndex =
-      (this.activeProductImageIndex + this.activeProductImages.length - 1) %
-      this.activeProductImages.length;
-  }
-
-  showNextProductImage(): void {
-    if (this.activeProductImages.length === 0) {
-      return;
-    }
-
-    this.activeProductImageIndex =
-      (this.activeProductImageIndex + 1) % this.activeProductImages.length;
   }
 
   decreaseQuantity(): void {
