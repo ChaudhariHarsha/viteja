@@ -141,7 +141,7 @@ export class App {
       orderUnitPlural: 'bottles',
       orderNote: 'Viteja team will confirm availability and delivery details on WhatsApp.',
       image: {
-        src: 'assets/front.jpeg',
+        src: 'assets/front.png',
         alt: 'Front view of Viteja Ultra Smoothening Shampoo bottle'
       }
     },
@@ -232,7 +232,7 @@ export class App {
       metrics: [
         { value: '500 ml', label: 'net volume' },
         { value: 'Lemon Formula', label: 'rich foam action' },
-        { value: '₹99', label: 'Incl. of taxes' }
+        { value: '₹290', label: 'Per pack of 3' }
       ],
       benefits: [
         {
@@ -272,16 +272,16 @@ export class App {
           detail: 'Wash out completely with clean water to leave your utensils residue-free, shiny, and smelling fresh.'
         }
       ],
-      priceDisplay: '₹99',
-      pricePerUnit: 99,
-      unitPriceLabel: 'per bottle',
-      totalQuantityLabel: 'Total bottles',
-      orderUnitName: 'bottle',
-      orderUnitPlural: 'bottles',
-      orderNote: 'Viteja team will confirm availability and delivery details on WhatsApp.',
+      priceDisplay: '₹290',
+      pricePerUnit: 290,
+      unitPriceLabel: 'per pack of 3',
+      totalQuantityLabel: 'Total packs',
+      orderUnitName: 'pack',
+      orderUnitPlural: 'packs',
+      orderNote: 'Only packs of 3 bottles are delivered. Viteja team will confirm availability and delivery details on WhatsApp.',
       image: {
         src: 'assets/dishwasher.jpeg',
-        alt: 'Viteja DishSpark Dish Wash Liquid bottle'
+        alt: 'Viteja DishSpark Dish Wash Liquid pack of 3 bottles'
       }
     }
   ];
